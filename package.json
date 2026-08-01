@@ -1,0 +1,48 @@
+{
+  "name": "agentcheck",
+  "version": "0.1.0",
+  "description": "Produce an evidence pack for an agent deployment. Separates what a human declared from what a command verified, and refuses to give you a score.",
+  "type": "module",
+  "bin": {
+    "agentcheck": "bin/agentcheck.mjs"
+  },
+  "exports": {
+    ".": "./src/check.mjs",
+    "./controls": "./src/controls.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "keywords": [
+    "ai-agents",
+    "agentic",
+    "ai-governance",
+    "eu-ai-act",
+    "nist-ai-rmf",
+    "iso-42001",
+    "compliance",
+    "audit",
+    "evidence",
+    "llm-security",
+    "owasp-llm"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uchit/agentcheck.git"
+  },
+  "homepage": "https://hellouchit.com/agents/",
+  "bugs": {
+    "url": "https://github.com/uchit/agentcheck/issues"
+  },
+  "author": "Uchit Vyas (https://hellouchit.com)",
+  "license": "MIT"
+}

@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run tests
+        run: npm test
+
+      # The tool's whole contract is its exit codes. Assert them end to end,
+      # not just in unit tests, so a CLI regression cannot ship green.
+      - name: Exit code — honest unknown passes
+        run: |
+          node bin/agentcheck.mjs init --config t.json
+          node bin/agentcheck.mjs check --config t.json
+      - name: Exit code — met with no evidence fails
+        run: |
+          node -e "
+            const fs=require('fs');
+            const c=JSON.parse(fs.readFileSync('t.json','utf8'));
+            c.controls['agent-identity']={status:'met',evidence:'',note:''};
+            fs.writeFileSync('t.json',JSON.stringify(c));
+          "
+          if node bin/agentcheck.mjs check --config t.json; then
+            echo "::error::expected a non-zero exit for a met control with no evidence"; exit 1
+          fi
+      - name: Exit code — prerequisite gap fails
+        run: |
+          node -e "
+            const fs=require('fs');
+            const c=JSON.parse(fs.readFileSync('t.json','utf8'));
+            c.controls['agent-identity']={status:'not-met',evidence:'',note:''};
+            c.controls['agent-tool-authz']={status:'met',evidence:'git://tools.yaml',note:''};
+            fs.writeFileSync('t.json',JSON.stringify(c));
+          "
+          if node bin/agentcheck.mjs check --config t.json; then
+            echo "::error::expected a non-zero exit for an unmet prerequisite"; exit 1
+          fi
