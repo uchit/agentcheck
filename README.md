@@ -1,16 +1,20 @@
 # agentcheck
 
 [![CI](https://github.com/uchit/agentcheck/actions/workflows/ci.yml/badge.svg)](https://github.com/uchit/agentcheck/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/agentcheck.svg)](https://www.npmjs.com/package/agentcheck)
+[![npm](https://img.shields.io/npm/v/@uchit/agentcheck.svg)](https://www.npmjs.com/package/@uchit/agentcheck)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Produce an evidence pack for an agent deployment. Zero dependencies, Node 18+,
 everything it executes is read-only.
 
+> Published as `@uchit/agentcheck` — npm rejects the unscoped name as too
+> similar to an unrelated existing package. The installed binary is still
+> `agentcheck`.
+
 ```sh
-npx agentcheck init
+npx @uchit/agentcheck init
 # fill in agentcheck.config.json
-npx agentcheck check --md evidence.md
+npx @uchit/agentcheck check --md evidence.md
 ```
 
 ## What it refuses to do
@@ -51,7 +55,7 @@ and a tool that punishes it teaches people to guess.
 That makes it usable as a CI gate:
 
 ```yaml
-- run: npx agentcheck check --config agentcheck.config.json --md evidence.md
+- run: npx @uchit/agentcheck check --config agentcheck.config.json --md evidence.md
 ```
 
 ## The ten controls
@@ -103,8 +107,8 @@ unrecognised is treated as `unknown` rather than silently accepted.
 ## Use as a library
 
 ```js
-import { assess, exitCodeFor } from "agentcheck";
-import { CONTROLS } from "agentcheck/controls";
+import { assess, exitCodeFor } from "@uchit/agentcheck";
+import { CONTROLS } from "@uchit/agentcheck/controls";
 
 const pack = assess(config);            // runs nothing
 const strict = assess(config, { runner }); // supply your own executor

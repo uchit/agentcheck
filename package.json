@@ -1,5 +1,5 @@
 {
-  "name": "agentcheck",
+  "name": "@uchit/agentcheck",
   "version": "0.1.0",
   "description": "Produce an evidence pack for an agent deployment. Separates what a human declared from what a command verified, and refuses to give you a score.",
   "type": "module",
