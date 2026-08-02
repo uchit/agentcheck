@@ -11,10 +11,11 @@
     "./controls": "./src/controls.mjs"
   },
   "files": [
-    "bin",
-    "src",
+    "LICENSE",
+    "NOTICE",
     "README.md",
-    "LICENSE"
+    "bin",
+    "src"
   ],
   "engines": {
     "node": ">=18"
